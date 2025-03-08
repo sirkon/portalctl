@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/sirkon/cmd-tools/cmd/portalctl/internal/portallog"
+	"github.com/sirkon/portalctl/internal/portallog"
 	"github.com/sirkon/errors"
 )
 
