@@ -50,4 +50,4 @@ You can do some management with it:
 - once you do "write" type operations, it adds a new record to a log file placed in `<user cache directory>/portalctl/`.
 - it reads records in the log file and do a response logic once you do "read" type operation. It is always "full scan",
  so that's why `log-compact` is provided. Albeit, the log shouldn't be that huge to really care about this: there are
- only a few directories you need to go into regularly.
+ only a few directories you need to go into regularly in any reasonable scenario.
