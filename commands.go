@@ -1,5 +1,11 @@
 package main
 
+import (
+	"github.com/sirkon/errors"
+	"go/ast"
+	"go/parser"
+)
+
 // Commands структура команд приложения.
 type Commands struct {
 	Here   CommandHere   `cmd:"" help:"Add current directory to portals under the given name."`
@@ -19,4 +25,23 @@ type RunContext struct {
 
 	appCacheRoot string
 	opLogFile    string
+}
+
+type identifierName string
+
+// UnmarshalText для реализации encoding.TextUnmarshaler.
+func (id *identifierName) UnmarshalText(text []byte) error {
+	t := string(text)
+	expr, err := parser.ParseExpr(t)
+	if err != nil {
+		return errors.New("invalid identifier")
+	}
+
+	_, ok := expr.(*ast.Ident)
+	if !ok {
+		return errors.New("invalid identifier")
+	}
+
+	(*id) = identifierName(t)
+	return nil
 }

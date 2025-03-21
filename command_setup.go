@@ -10,27 +10,31 @@ import (
 	"github.com/sirkon/message"
 )
 
-var (
-	bashRCAppend = []string{
-		"portal() {",
+func bashRCAppend(jumper string) []string {
+	return []string{
+		jumper + "() {",
 		"    cd `portalctl show $1`",
 		"}",
 		"complete_portal() {",
 		"    COMPREPLY=($(compgen -W \"`portalctl prefix`\" \"$2\"))",
 		"}",
-		"complete -F complete_portal portal",
+		"complete -F complete_portal " + jumper,
 	}
+}
 
-	zshRCAppend = []string{
-		"portal() {",
+func zshRCAppend(jumper string) []string {
+	return []string{
+		jumper + "() {",
 		"    cd `portalctl show $1`",
 		"}",
-		"complete -o nospace -C 'portalctl prefix' portal",
+		"complete -o nospace -C 'portalctl prefix' " + jumper,
 	}
-)
+}
 
 // CommandSetup реализация команды setup.
-type CommandSetup struct{}
+type CommandSetup struct {
+	JumpFunction identifierName `help:"Name of the jump function." default:"portal" short:"j"`
+}
 
 // Run запуск команды.
 func (d CommandSetup) Run(ctx *RunContext) error {
@@ -40,8 +44,8 @@ func (d CommandSetup) Run(ctx *RunContext) error {
 	}
 
 	filesToTouch := map[string][]string{
-		".bashrc": bashRCAppend,
-		".zshrc":  zshRCAppend,
+		".bashrc": bashRCAppend(string(d.JumpFunction)),
+		".zshrc":  zshRCAppend(string(d.JumpFunction)),
 	}
 	for file, rcAppend := range filesToTouch {
 		if err := installIntoFile(homedir, file, rcAppend); err != nil {
@@ -79,7 +83,7 @@ func installIntoFile(home, rc string, rcAppend []string) error {
 
 	lines := strings.Split(string(data), "\n")
 	for _, line := range lines {
-		if strings.HasPrefix(line, zshRCAppend[0]) {
+		if strings.HasPrefix(line, rcAppend[0]) {
 			message.Infof("%s has already been set up, omitting", rc)
 			return nil
 		}
