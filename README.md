@@ -41,7 +41,7 @@ You can do some management with it:
 | `prefix <prefix>` | List all names having the given `<prefix>`                                   |
 | `log-compact`     | Removes all log entries related to removed portals.                          |
 | `version`         | Prints version and exits.                                                    |
-| `setup`           | Registers `portal` shell function. Registers shell completion for `portal`   |
+| `setup`           | Registers `<portal>` shell function. Registers shell completion for `<portal>`. `<portal>` is just `portal` by default. Can be customized, see help for the `setup` command.   |
 
 # What is under the hood.
 
