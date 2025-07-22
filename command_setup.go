@@ -27,7 +27,17 @@ func zshRCAppend(jumper string) []string {
 		jumper + "() {",
 		"    cd `portalctl show $1`",
 		"}",
-		"complete -o nospace -C 'portalctl prefix' " + jumper,
+		"_" + jumper + "() {",
+		"    if [ ${#words[@]} -ge 3 ]; then",
+		"	    return",
+		"    fi",
+		`    echo ${words} " | " ${#words[@]} >> ~/.pj`,
+		"    local -a _values",
+		"    tocomp=${words[2]}",
+		`    _values=("${(@f)$(portalctl prefix $tocomp)}")`,
+		"    compadd -a _values",
+		"}",
+		"compdef _" + jumper + " " + jumper,
 	}
 }
 

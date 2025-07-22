@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -24,6 +25,7 @@ func (d CommandPrefix) Run(ctx *RunContext) error {
 
 		for _, portal := range portals {
 			fmt.Println(portal)
+			fmt.Println(portal + "/")
 		}
 
 		return nil
@@ -33,18 +35,31 @@ func (d CommandPrefix) Run(ctx *RunContext) error {
 		return nil
 	}
 
-	path, err := portallog.LogShowPortalPath(ctx.opLogFile, d.Prefix[:pos])
+	parts := strings.Split(d.Prefix, "/")
+	if len(parts) != 2 {
+		return nil
+	}
+
+	path, err := portallog.LogShowPortalPath(ctx.opLogFile, parts[0])
 	if err != nil {
 		return nil
 	}
 
-	matches, err := filepath.Glob(filepath.Join(path, d.Prefix[pos+1:]+"*"))
+	dirs, err := os.ReadDir(path)
 	if err != nil {
-		return nil
+		return err
 	}
 
-	for _, match := range matches {
-		fmt.Println(d.Prefix[:pos] + strings.TrimPrefix(match, path))
+	for _, dir := range dirs {
+		if !dir.IsDir() {
+			continue
+		}
+
+		if !strings.HasPrefix(dir.Name(), parts[1]) {
+			continue
+		}
+
+		fmt.Println(filepath.Join(parts[0], dir.Name()))
 	}
 
 	return nil
