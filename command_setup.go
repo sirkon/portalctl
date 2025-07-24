@@ -16,7 +16,7 @@ func bashRCAppend(jumper string) []string {
 		"    cd `portalctl show $1`",
 		"}",
 		"complete_portal() {",
-		"    COMPREPLY=($(compgen -W \"`portalctl prefix`\" \"$2\"))",
+		"    COMPREPLY=($(compgen -W \"`portalctl prefix $2`\"))",
 		"}",
 		"complete -F complete_portal " + jumper,
 	}

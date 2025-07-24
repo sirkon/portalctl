@@ -16,7 +16,7 @@ func (s *PortalName) UnmarshalText(data []byte) error {
 	}
 
 	if !identifierMatch.Match(data) {
-		return errors.Newf("portal name must match [a-zA-Z_][a-zA-Z0-9_]*")
+		return errors.Newf("portal name must have only alphanumeric characters with optional _ and - signs in the middle")
 	}
 
 	*s = PortalName(data)
@@ -24,5 +24,5 @@ func (s *PortalName) UnmarshalText(data []byte) error {
 }
 
 var (
-	identifierMatch = regexp.MustCompile("^[a-zA-Z_][a-zA-Z0-9_]*$")
+	identifierMatch = regexp.MustCompile(`^[a-zA-Z0-9]([a-zA-Z0-9_\-]*[a-zA-Z0-9])+$`)
 )
