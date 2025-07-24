@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/sirkon/portalctl/internal/portallog"
 	"github.com/sirkon/errors"
+	"github.com/sirkon/portalctl/internal/portallog"
 )
 
 // CommandDelete реализация команды delete.

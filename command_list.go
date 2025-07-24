@@ -5,8 +5,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/sirkon/portalctl/internal/portallog"
 	"github.com/sirkon/errors"
+	"github.com/sirkon/portalctl/internal/portallog"
 )
 
 // CommandList реализация команды list.

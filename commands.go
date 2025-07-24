@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/sirkon/errors"
 	"go/ast"
 	"go/parser"
+
+	"github.com/sirkon/errors"
 )
 
 // Commands структура команд приложения.

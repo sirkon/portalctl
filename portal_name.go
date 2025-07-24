@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/sirkon/errors"
 	"regexp"
+
+	"github.com/sirkon/errors"
 )
 
 // PortalName имя портала.
